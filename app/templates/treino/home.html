@@ -1,0 +1,123 @@
+{% extends 'static/base/base.html' %}
+{% block 'title' %}
+Treinos
+{% endblock %}
+
+{% block 'content' %}
+
+
+<section class="container mx-auto m-10 bg-white/60 p-4 rounded-3xl border-1 border-gray-300 shadow-md">
+     <div class="flex justify-between items-center">
+    <h1 class="text-2xl py-4"><i class="fa-solid fa-dumbbell"></i> Gerenciar Exercícios</h1>
+    <a href="" class="text-1xl rounded-2xl bg-gray-800 p-3 text-white hover:bg-gray-500"><i class="fa-solid fa-arrow-left"></i> VOLTAR</a>
+    </div>
+    <hr class="border-1 border-gray-500 my-2">
+    
+    <div class="flex flex-wrap space-x-4 justify-between items-center">
+        <div>
+            <h2 class="text-2xl py-3"><i class="fa-solid fa-plus"></i> Categoria</h2>
+        
+        <form action="{% url 'treinos' %}" method="post" class="flex flex-wrap space-x-2"  enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+                <label class="block">Titulo</label>
+                <input type="text" name="titulo" class="bg-gray-300 p-2 rounded-3xl" />
+            </div>
+            <div>
+                <label class="block">Grupo:</label>
+                 <select name="grupo" class="bg-gray-300 p-2 rounded-3xl w-50">
+                <option>--SELECIONE--</option>
+                <option value="Superior">Superior</option>
+                <option value="Inferior">Inferior</option>
+            </select>
+            </div>
+            <div>
+                <label class="block">Tipo:</label>
+                 <select name="tipo" class="bg-gray-300 p-2 rounded-3xl w-50">
+                <option>--SELECIONE--</option>
+                <option value="Musculação">Musculação</option>
+                <option value="Cardio">Cardio</option>
+                <option value="Funcional">Funcional</option>
+            </select>
+            
+            </div>
+            <div>
+            <label for="imagem" class="block">Imagem do Músculo:</label>
+            <input type="file" name="imagem" id="imagem" class="w-10 h-10 bg-gray-300 p-2 rounded-3xl w-50">
+            </div>
+            <div>
+                
+                <br>
+                <button class="cursor-pointer p-2 bg-green-600 text-white rounded-3xl px-4 hover:bg-green-700"><i class="fa-solid fa-plus"></i> Adicionar</button>
+            </div>
+        </form>
+        <br>
+        <hr>
+        <br>
+        </div>
+        
+        <div>
+        <h1 class="text-2xl py-2"><i class="fa-solid fa-plus"></i>Exercícios</h1>
+        <form action="{% url 'exercicios' %}" method="post" class="flex flex-wrap space-x-2" enctype="multipart/form-data">
+            
+            {% csrf_token %}
+            <div>
+                <label class="block">Exercício:</label>
+                <input type="text" name="exercicio" class="bg-gray-300 p-2 rounded-3xl" />
+            </div>
+            <div>
+                <label class="block">Músculo:</label>
+                 <select name="categoria" class="bg-gray-300 p-2 rounded-3xl w-50">
+                <option>--SELECIONE--</option>
+                {% for c in categoria_treino %}
+                <option value="{{c.id}}">{{c.titulo}}</option>
+                {% endfor %}
+            </select>
+            </div>
+            <div>
+            <label for="imagem" class="block">Imagem do exercício:</label>
+            <input type="file" name="imagem" id="imagem" class="w-10 h-10 bg-gray-300 p-2 rounded-3xl w-50">
+            </div>
+            <div>
+                <br>
+                <button class="cursor-pointer p-2 bg-green-600 text-white rounded-3xl px-4 hover:bg-green-700"><i class="fa-solid fa-plus"></i> Adicionar</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</section>
+<section class="container mx-auto m-10 bg-white/60 p-4 rounded-3xl border-1 border-gray-300 shadow-md">
+     <div class="flex flex-wrap justify-between items-center">
+        <h1 class="text-2xl py-4"><i class="fa-solid fa-dumbbell"></i> Grupo muscular</h1>
+        <div class="flex space-x-2 my-4">
+            {% csrf_token %}
+            <input type="text" class="w-full bg-gray-300 p-2 rounded-3xl" id="buscaInput" placeholder="Buscar grupo" />
+        </div>
+     </div>
+    
+    <hr>
+    <br>
+    <div id="resultadosBusca"></div>
+    <div class="flex flex-wrap space-y-4 justify-between">
+    {% for c in categoria_treino %}
+        {% if not c.imagem %}
+        <div class="relative w-36 h-36" >
+
+        <a href="{% url 'view_treino' c.id %}" data-modal-view="{{ forloop.counter }}" class="text-1xl text-white bg-gray-800 rounded-4xl p-4 block my-1 w-36 h-36 flex items-center">{{c.titulo}}</a>
+        <a href="{% url 'delete_categoria_exercicio' c.id %}" class="bg-red-500 rounded-3xl p-2 text-white absolute top-0 bottom-0 w-9 h-9"><i class="fa-solid fa-trash"></i></a>
+       <a href="{% url 'view_exercicio' c.id %}" class="bg-blue-900 rounded-3xl p-2 text-white absolute top-0 bottom-0 right-0 w-9 h-9"><i class="fa-solid fa-dumbbell"></i></a>
+    </div>
+    {% else %}
+    
+        <div class="relative w-36 h-36 ">
+            <a href="{% url 'view_exercicio' c.id %}" class="bg-blue-900 rounded-3xl p-2 text-white absolute top-0 bottom-0 right-0 w-9 h-9"><i class="fa-solid fa-dumbbell"></i></a>
+            <a href="{% url 'view_treino' c.id %}" data-modal-view="{{ forloop.counter }}" class="flex justify-center items-center absolute inset-0 m-auto w-auto h-10 text-white text-1xl bg-black/59">{{c.titulo}}</a>
+            <img src="{{ c.imagem.url }}" class=" rounded-4xl" />
+            <a href="{% url 'delete_categoria_exercicio' c.id %}" class="bg-red-500 w-9 h-9 rounded-3xl p-2 text-white absolute top-0 bottom-0"><i class="fa-solid fa-trash"></i></a>
+        </div>
+    {% endif %}
+     {% endfor %}
+     </div>
+    
+</section>
+{% endblock %}

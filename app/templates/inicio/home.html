@@ -1,0 +1,21 @@
+{% extends 'static/base/base.html' %}
+{% block 'title' %}
+Inicio - Personal APP
+{% endblock %}
+
+{% block 'content' %}
+<section class="container mx-auto m-10 bg-white/60 p-4 rounded-3xl border-1 border-gray-300 shadow-md flex flex-wrap space-x-4">
+    {% if alunos %}
+    <div class="w-36 h-36 bg-gray-300 rounded-3xl flex flex-col items-center p-3">
+        <h1>Alunos</h1>
+        <i class="fa-solid fa-users m-auto text-4xl"></i> 
+        <p class="text-3xl">{{alunos}}</p>
+    </div>
+    {% endif %}
+    <div class="w-36 h-36 bg-gray-300 rounded-3xl flex flex-col items-center p-3">
+        <h1>Receita Mensal</h1>
+        <i class="fa-solid fa-money-bill-trend-up text-4xl m-auto"></i>
+        <p class="text-3xl">R${{total}}</p>
+    </div>
+</section>
+{% endblock %}

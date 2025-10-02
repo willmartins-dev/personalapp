@@ -1,0 +1,71 @@
+{% extends 'static/base/base.html' %}
+{% block 'title' %}
+Gerenciar Clientes
+{% endblock %}
+{% block 'content' %}
+<section class="container mx-auto bg-white/60 p-4 rounded-3xl border-1 border-gray-300 shadow-md">
+    <div class="flex justify-between items-center border-solid border-b-1">
+    <h1 class="text-2xl py-4"><i class="fa-solid fa-users"></i> CLIENTES</h1>
+    <a href="" class=" rounded-2xl bg-gray-800 p-2 text-white hover:bg-gray-500"><i class="fa-solid fa-arrow-left"></i> VOLTAR</a>
+    </div>
+    <form action="{% url 'clientes' %}" method="post" class="flex flex-wrap items-center space-x-2 py-4">
+        {% csrf_token %}
+        <div>
+            <label class="block">Nome:</label>
+            <input type="text" name="nome" class="w-full bg-gray-300  p-2 rounded-3xl basis-128"/>
+        </div>
+        <div>
+            <label class="block">Celular:</label>
+            <input type="text" name="celular" class="w-full bg-gray-300 p-2 rounded-3xl"/>
+        </div>
+        <div>
+            <label class="block">Plano:</label>
+            <select name="plano" class="w-full bg-gray-300 p-2 rounded-3xl w-50">
+                <option>--SELECIONE</option>
+                <option value="1">1X</option>
+                <option value="2">2X</option>
+                <option value="3">3X</option>
+                <option value="4">4X</option>
+                <option value="5">5X</option>
+                <option value="6">6X</option>
+            </select>
+        </div>
+        <div>
+            <label class="block">Valor/mensal:</label>
+            <input type="text" name="valor" class="w-full bg-gray-300 p-2 rounded-3xl"/>
+        </div>
+        <div>
+            <br>
+            <button class="cursor-pointer p-2 bg-green-600 text-white rounded-3xl px-4 hover:bg-green-700"><i class="fa-solid fa-user-plus"></i> Salvar</button>
+        </div>
+    </form>
+</section>
+<section class="space-y-2 container mx-auto my-5 bg-white/60 p-4 rounded-3xl border-1 border-gray-300 shadow-md">
+    <div class="text-1xl items-center">
+        <i class="fa-solid fa-users"></i> Alunos: {{cliente.count}} | <i class="fa-solid fa-money-bill-trend-up"></i> Total/Mensal: R${{ total }}
+    </div>
+    <hr>
+    <div class="flex space-x-2">
+      <div class="w-full max-w-30 bg-black text-white p-2 rounded-3xl">Data</div>
+      <div class="w-full max-w-96 bg-black text-white p-2 rounded-3xl">Nome</div>
+      <div class="w-full max-w-96 bg-black text-white p-2 rounded-3xl">Mensalidade</div>
+      <div class="w-full max-w-96 bg-black text-white p-2 rounded-3xl">Hora/aula</div>
+      <div class="w-full max-w-80 bg-black text-white p-2 rounded-3xl">Edição</div>
+      
+    </div>
+    {% for i in cliente %}
+    <div class="flex space-x-2 items-center justify-between">
+      <div class="w-full max-w-30 bg-white p-2 rounded-3xl">{{i.created_at|date:"d/m/Y"}}</div>
+      <div class="w-full max-w-96 bg-white p-2 rounded-3xl">{{i.nome}}</div>
+      <div class="w-full max-w-96 bg-white p-2 rounded-3xl">R${{ i.valor }}</div>
+      <div class="w-full max-w-96 bg-white p-2 rounded-3xl">R${{ i.calc_mensal }}</div>
+      <div class="w-full max-w-80 bg-white p-2 rounded-3xl flex space-x-2 justify-between">
+        <a href="{% url 'view_clientes' i.id %}" class="text-1xl rounded-3xl text-white bg-blue-400"><i class="fa-solid fa-edit"></i></a>
+        <a href="{% url 'treino_cliente' i.id %}" class="rounded-3xl text-white bg-black"><i class="fa-solid fa-dumbbell"></i></a>
+        <a href="{% url 'delete_cliente' i.id %}" class="rounded-3xl text-white bg-red-500"><i class="fa-solid fa-trash"></i></a>
+      </div>
+      
+    </div>
+    {% endfor %}
+</section>
+{% endblock %}

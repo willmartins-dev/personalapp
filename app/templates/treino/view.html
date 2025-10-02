@@ -1,0 +1,58 @@
+{% block 'content' %}
+{% if dados %}
+<section class="p-4 relative w-full h-full">
+    
+    <div class="mx-2 flex flex-col items-center justify-center" >
+        <div class="w-48 h-48 relative">
+        {% if dados.imagem %}
+            <img src="{{ dados.imagem.url }}" class="rounded-4xl" />
+        {% else %}
+            <div class="w-48 h-48 bg-gray-300 flex items-center p-4">
+                <p class="m-auto">Sem Imagem</p>
+            </div>
+        {% endif %}
+        </div>
+            <form action="{% url 'upload' dados.id %}" method="post" enctype="multipart/form-data" class="my-3">
+            {% csrf_token %}
+            <div class="relative label-upload ">
+                <label for="upload" class="cursor-pointer" >
+                    <i class="fa-solid fa-camera text-4xl"></i>
+                </label>              
+                <input type="file" name="upload" id="upload" class="hidden w-10 h-10">
+                <button type="submit" id="submit" class="cursor-pointer"><i class="fa-solid fa-arrow-up text-2xl bg-green-600 text-white rounded-2xl"></i></button>
+            </div>
+        </form>
+        <form action="{% url 'atualiza_treinos' dados.id %}" method="post" class="flex flex-wrap space-x-2">
+            {% csrf_token %}
+            <div>
+                <label class="block">Titulo</label>
+                <input type="text" name="titulo" class="bg-gray-300 p-2 rounded-3xl" value="{{dados.titulo}}" />
+            </div>
+            <div>
+                <label class="block">Grupo:</label>
+                 <select name="grupo" class="bg-gray-300 p-2 rounded-3xl w-50">
+                <option value="{{dados.grupo}}">{{dados.grupo}}</option>
+                <option value="Superior">Superior</option>
+                <option value="Inferior">Inferior</option>
+            </select>
+            </div>
+            <div>
+                <label class="block">Tipo:</label>
+                 <select name="tipo" class="bg-gray-300 p-2 rounded-3xl w-50">
+                <option value="{{dados.tipo}}">{{dados.tipo}}</option>
+                <option value="Musculação">Musculação</option>
+                <option value="Cardio">Cardio</option>
+                <option value="Funcional">Funcional</option>
+            </select>
+            </div>
+            <div>
+                <br>
+                <button class="cursor-pointer p-2 bg-green-600 text-white rounded-3xl px-4 hover:bg-green-700"><i class="fa-solid fa-floppy-disk"></i> Salvar</button>
+            </div>
+        </form>
+        <a href="{% url 'delete_categoria_exercicio' dados.id %}" class="bg-red-500 w-9 h-9 rounded-3xl p-2 text-white"><i class="fa-solid fa-trash"></i> Excluir</a>
+       
+    </div>
+</section>
+{% endif %}
+{% endblock %}

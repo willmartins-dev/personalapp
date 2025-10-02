@@ -1,0 +1,46 @@
+{% if treino_semana %}
+<section class="flex flex-col h-full w-full m-4">
+<div class="flex flex-wrap space-x-2 justify-between h-full w-full" id="resultadosBusca">
+    {% for c in exercicios %}
+        <div class="relative w-36 h-36 m-2 listaExercicios" id="{{ forloop.counter }}">
+            <a href="{% url 'inserir_exercicio' %}"  data-modal-view="{{ forloop.counter }}" data-id="{{treino_semana.id}}" data-nome="{{c.nome}}" data-imagem="{{ c.imagem.url }}" class="addExercicios flex justify-center items-center absolute bottom-0 w-full h-10 text-white text-1xl bg-black/59"><i class="fa-solid fa-plus"></i> {{c.nome}}</a>
+            <img src="{{ c.imagem.url }}" class=" rounded-4xl" />
+        </div>
+     {% endfor %}
+     <script>
+       const alink = document.querySelectorAll('.addExercicios');
+        //const array =JSON.parse(localStorage.getItem('exerciciosStorage'))||[];
+       alink.forEach(item =>{
+         
+          item.addEventListener('click', function(event){
+            event.preventDefault()
+             const url_2 = item.getAttribute('href');
+             const dataId = item.dataset.id;
+             const dataNome = item.dataset.nome;
+             const dataImg = item.dataset.imagem;
+             
+            let jsonData = {'id':dataId, 'exercicio':dataNome, 'imagem':dataImg} 
+            
+            fetch(url_2, {
+                method:'POST',
+                headers:{
+                    'Content-type': 'application/json',
+                    'X-CSRFToken': '{% csrf_token %}'
+                },
+                body: JSON.stringify(jsonData)
+            })
+            .then(response => response.json())
+            .then(data =>{
+                $(this).fadeOut('fast');
+                console.log(data);
+            })
+            .catch((error)=>{
+                console.error('Erro', error);
+            }); 
+          })
+          })
+      
+     </script>
+</div>
+{% endif %}
+</section>

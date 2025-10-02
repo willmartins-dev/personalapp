@@ -1,0 +1,63 @@
+{% extends 'static/base/base.html' %}
+{% block 'title' %}
+Inicio - Personal APP
+{% endblock %}
+
+{% block 'content' %}
+{% if treino %}
+<div id="modal-busca" class="absolute top-0 w-screen h-screen  bg-black/50 fixed z-50 flex items-center p-4 hidden">
+    <div class="items-center max-w-[80%] w-full h-full max-h-[600px] bg-white m-auto rounded-2xl my-4 overflow-auto p-4">
+        <a href="#" class="flex justify-end text-2xl text-black" id="close-busca"><i class="fa-solid fa-close"></i></a>   
+        <div class="border-solid border-b-1 p-2 flex flex-wrap items-center">
+            <i class="fa-solid fa-search"></i>
+            <input type="text" id="buscar-exercicio" data-buscar="{{treino.id}}" class="bg-gray-100 rounded-3xl p-2 w-full max-w-[93%] border" placeholder="Digite nome do exercício..." />    
+        </div>        
+        <div id="resultadosBuscaexercicio" class="content-modal-busca flex w-full h-full max-h-[80%] bg-white m-auto rounded-2xl">
+            
+            <div id="ajaxLoader" class="m-auto">
+                <p><i class="fa-solid fa-search"></i>Pesquise os exercícios!</p>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="container mx-auto bg-white/60 p-4 rounded-3xl border-1 border-gray-300 shadow-md flex flex-col space-y-2">
+    <h1 class="text-2xl"><i class="fa-solid fa-dumbbell"></i> Cadastrar sessões</h1>
+    <hr>
+    <form action="{% url 'add_treino_cliente' treino.id %}" method="post" class="flex items-center space-x-2 w-full">
+        {% csrf_token %}
+        <div class="w-full">
+            <label class="block">Título da sessão:</label>
+            <input type="text" name="titulo" class="bg-white p-2 rounded-3xl w-full" placeholder="ex: Treino1, Treino A, Segunda..." autofocus>
+            
+        </div>
+        <div>
+            <br>
+            <button class="bg-green-600 p-2 rounded-full"><i class="fa-solid fa-plus"></i></button>
+        </div>
+    </form>
+</section>
+
+<section class="container mx-auto bg-white/60 p-4 rounded-3xl border-1 border-gray-300 shadow-md flex flex-col space-y-2 my-3">
+    {% if sessao_treino %}
+    {% for s in sessao_treino %}
+        <div class="dia-semana ">
+            
+            <div class="flex justify-between items-center bg-black text-white p-2 rounded-md">{{s.titulo}} <a href="{% url 'delete_sessao' s.id %}" class="text-white bg-red-500 rounded-full p-2"><i class="fa-solid fa-trash"></i></a></div>
+            
+            <div class="p-3 bg-white space-x-2">
+            
+            <a href="{% url 'buscar_exercicio_sessao' %}" data-modal-busca="{{s.id}}" class="bg-green-700 text-white rounded-full p-2"><i class="fa-solid fa-plus"></i></a>
+            <a href="{% url 'lista_exercicio_sessao' s.id %}" data-modal-view="{{s.id}}" class="text-white bg-orange-600 rounded-full p-2"><i class="fa-solid fa-pencil"></i></a>    
+            </div>
+        </div>
+    {% endfor %}
+    {% else %}
+        <div class="m-auto">
+            <h1 class="text-2xl"><i class="fa-solid fa-list"></i> Cadastre a primeira sessão!</h1>
+        </div>
+    {% endif %}
+    <div id="listaExerciciosTmp" class="hidden">
+    </div>
+</section>
+{% endif %}
+{% endblock %}

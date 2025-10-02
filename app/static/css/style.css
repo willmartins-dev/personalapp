@@ -1,0 +1,42 @@
+body{
+    background: #302d70;
+background: linear-gradient(39deg, rgba(48, 45, 112, 1) 0%, rgba(75, 70, 138, 1) 25%, rgba(9, 9, 121, 1) 52%, rgba(0, 212, 255, 1) 100%);
+}
+.campo-dinamico{
+	background-color: darkgrey;
+	padding: 10px;
+	border-radius: 20px;
+}
+.fade-in {
+	opacity: 1;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 0.5s;
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.fade-out {
+	opacity: 1;
+	animation-name: fadeOutOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 0.7s;
+}
+
+@keyframes fadeOutOpacity {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}

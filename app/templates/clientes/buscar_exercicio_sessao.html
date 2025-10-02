@@ -1,0 +1,14 @@
+<div class="hidden bg-black text-white add-success flex justify-center items-center p-4 w-full m-4 position absolute top-0 left-0">
+  <h1><i class="fa-solid fa-check text-green-300"></i>Exercício adicionado</h1>
+</div>
+<div class="flex flex-wrap space-x-2 justify-between h-full w-full">
+    {% for c in exercicios %}
+        <div class="relative w-30 h-30 m-2 listaExercicios">
+            <img src="../../media/{{c.imagem }}" class=" rounded-4xl" />
+            <a href="{% url 'inserir_exercicio' %}"  data-modal-view="{{ forloop.counter }}" data-idexer="{{c.id}}" data-nome="{{c.nome}}" data-imagem="{{ c.imagem }}" class="addExercicios flex justify-center items-center absolute bottom-0 w-full h-10 text-white text-1xl bg-black/59">
+                <i class="fa-solid fa-plus"></i> {{c.nome}}
+            </a>
+        </div>
+     {% endfor %}
+</div>
+</section>

@@ -1,0 +1,49 @@
+<div class="absolute bg-black/60 w-screen h-screen z-1 bg-menu hidden"></div>
+<nav class="flex flex-col w-full justify-center p-4 ">
+    <div class="bg-black/40 p-4 sm:hidden w-full max-w-3xl flex justify-between items-center ">
+        
+        <div>
+            <h1 class="text-white text-2xl">Personal App</h1>
+        </div>
+        <a href="#" class="open-menu cursor-pointer text-white bg-black/40 backdrop-opacity-60 shadow-lg p-4 border-1 border-gray-300 rounded-xl">
+            <i class="fa-solid fa-bars"></i>
+        </a>
+        <div class="menu absolute bg-white right-0 top-0 w-full h-full max-w-md hidden z-10">
+            <div class="flex justify-between items-center">
+            <h1 class="p-4"><i class="fa-solid fa-bars"></i> Menu</h1>
+            <a href="#" id="close-menu" class="p-4 bg-gray-100"><i class="fa-solid fa-close"></i></a>
+            </div>
+            <ul class="space-y-2">
+                <li class=" border-0 border-b-1 border-t-1 border-gray-300 p-4 flex"><a href="{% url 'home' %}" class="w-full h-full"><i class="fa-solid fa-home"></i> Home</a></a></li>
+                <li class=" border-0 border-b-1 border-gray-300 p-4 flex"><a href="{% url 'clientes' %}"  class="w-full h-full"><i class="fa-solid fa-users"></i> Clientes</a></a></li>
+                <li class=" border-0 border-b-1 border-gray-300 p-4 flex"><a href="{% url 'treinos' %}"  class="w-full h-full"><i class="fa-solid fa-dumbbell"></i> Treino</a></a></li>
+            </ul>
+        </div>
+    </div>
+   <div class="flex flex-wrap justify-between invisible sm:visible bg-white/40 backdrop-opacity-60 p-4 rounded-4xl shadow-lg border-1 border-gray-300 w-full">
+    <h1 class="text-2xl">Personal App</h1>
+    <ul class="flex space-x-2 items-center">
+        <li>
+            <a href="{% url 'home' %}" class="px-4 py-2 rounded-3xl bg-gray-300 hover:bg-black hover:text-white ">
+                
+                <i class="fa-solid fa-house"></i>
+                HOME
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'clientes' %}" class="px-4 py-2 rounded-3xl bg-gray-300 hover:bg-black hover:text-white ">
+                <i class="fa-solid fa-users"></i>
+                Clientes
+            </a>
+            
+        </li>
+        <li>
+            <a href="{% url 'treinos' %}" class="px-4 py-2 rounded-3xl bg-gray-300 hover:bg-black hover:text-white ">
+                <i class="fa-solid fa-dumbbell"></i>
+                Treino
+            </a>
+            
+        </li>
+    </ul>
+    </div>
+</nav>

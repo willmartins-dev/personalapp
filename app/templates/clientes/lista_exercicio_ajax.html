@@ -1,0 +1,114 @@
+<div class="sucesso-delete mx-auto w-full hidden bg-black text-white flex items-center p-2 absolute top-0 left-0">
+    <h1><i class="fa-solid fa-close text-red-600"></i> Exercício excluído!</h1>
+</div>
+<div class="sucesso-update mx-auto w-full hidden bg-black text-white flex items-center p-2 absolute top-0 left-0">
+    <h1><i class="fa-solid fa-check text-green-600"></i> Exercício Atualizado!</h1>
+</div>
+<div class="ops mx-auto w-full hidden bg-black text-white flex items-center p-2 absolute top-0 left-0">
+    <h1><i class="fa-solid fa-exclamation"></i> Algo deu errado tente novamente!</h1>
+</div>
+{% if lista_exercicio %}
+<div class="p-3 space-y-2 w-full h-full">
+    {% for le in lista_exercicio %}
+    <div id="delete-fade-{{le.id}}">
+    <form action="{% url 'update_treino' le.id %}" method="post" id="update-treino{{le.id}}" class=" flex flex-wrap justify-between items-center border border-gray-300 p-2" enctype="multipart/form-data" >
+        {% csrf_token %}
+        <div>
+        <label class="block">Exercício:</label>
+        <input type="text" name="exercicio" value="{{le.exercicio}}" class="w-full rounded-3xl bg-gray-300 p-2" />
+        </div>
+        <div>
+        <label class="block">Séries:</label>
+        <input type="text" name="series" value="{{le.series|default_if_none:0 }}" class="rounded-3xl bg-gray-300 p-2 w-26" />
+        </div>
+        <div>
+        <label class="block">Reps:</label>
+        <input type="text" name="repeticoes" value="{{le.repeticoes|default_if_none:0 }}" class="rounded-3xl bg-gray-300 p-2 w-26" />
+        </div>
+        <div class="w-full">
+        <label class="block">Observações:</label>
+        <input type="text" name="observacoes" value="{{le.observacao}}" class="rounded-3xl bg-gray-300 p-2 w-full" />
+        </div>
+        <div class="p-2">
+            <button class="submit-update cursor-pointer p-2 text-white rounded-full bg-green-600" data-id="{{le.id}}" ><i class="fa-solid fa-refresh"></i></button>
+            <a href="{% url 'delete_exercicio_sessao' le.id %}" id="delete-exercicio" class="bg-red-600 text-white p-2 rounded-full"><i class="fa-solid fa-minus"></i></a>
+        </div>
+    </form>
+    </div>
+    <script>
+        
+    </script>
+    {% endfor %}
+<script type="text/javascript">
+    
+    $(document).ready(function(){
+            let submitAll = document.querySelectorAll('[data-id]');
+            submitAll.forEach(btnForm => {
+                btnForm.addEventListener('click', function(e){
+                    e.preventDefault();
+
+                    idForm = this.dataset.id;
+                    const form = $('#update-treino'+idForm).serialize();
+                    const url =  $('#update-treino'+idForm).attr('action');
+                    console.log(idForm);
+                    $.ajax({
+                        type:'POST',
+                        headers: {
+                            "X-CSRFTOKEN": "{{ csrf_token }}",
+                        },
+                        url:url,
+                        data:form,
+                        success: function(response){
+                            //console.log(response)
+                            $('.sucesso-update').slideDown(500).delay(800);
+                            $('.sucesso-update').fadeOut(800).delay(800);
+
+                        },
+                        error: function(xhr, status, error){
+                            
+                            $('.ops').slideDown(500).delay(800);
+                            $('.ops').fadeOut(500).delay(800).innerHtml=status;
+                            console.log('Error:', error);
+                        }
+                    });
+                    return false;
+
+                });
+            });
+           
+    
+    const delete_exercicio = document.querySelectorAll('#delete-exercicio');
+    delete_exercicio.forEach(item =>{
+        item.addEventListener('click', function(e){
+            e.preventDefault();
+            
+          url = $(this).attr('href');
+          id_url = url.split('/')[2];
+          console.log(id_url);
+          $('#delete-fade-'+id_url).fadeOut(500);
+          $.ajax({
+                url: url,
+                type: 'POST', // ou 'POST'
+                beforeSend: function() {
+                    $('#ajaxLoader').show(); // Show loader
+                },
+                success: function(data) {
+                    $('.sucesso-delete').slideDown(1000).delay(1000);
+                    $('.sucesso-delete').slideUp(1000).delay(1000);
+                
+                },
+                complete: function() {
+                    $('#ajaxLoader').hide(); // Hide loader after completion (success or error)
+                }
+            })
+        })
+    })
+    })
+    </script>
+    </div>
+    {% else %}
+    <div class="m-auto item-center justify-center">
+        
+        <p class="justify-center"><i class="fa-solid fa-close m-auto"></i>Nenhum exercício cadastrado!</p>
+    </div>
+    {% endif %}

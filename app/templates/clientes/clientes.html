@@ -1,0 +1,107 @@
+{% extends 'static/base/base.html' %}
+{% block 'title' %}
+Inicio - Personal APP
+{% endblock %}
+
+{% block 'content' %}
+{% if cliente %}
+
+<section class="container mx-auto bg-white/60 p-4 rounded-3xl border-1 border-gray-300 shadow-md flex flex-col space-y-2">
+    
+    <div class="flex items-center justify-between">
+        <h1 class="text-2xl"><i class="fa-solid fa-id-card mx-3"></i>{{cliente.nome}} {{idade}}</h1> 
+        <a href="{% url 'clientes' %}" class="text-1xl rounded-2xl p-2 bg-gray-800 text-white hover:bg-gray-500"><i class="fa-solid fa-arrow-left"></i> VOLTAR</a>
+
+    </div>
+    <hr>
+    <div>
+        <h1 class="text-2xl">Dados pessoais</h1>
+    </div>
+    <form action="{% url 'view_clientes' cliente.id %}" method="post" class="flex flex-wrap items-center justify-between space-x-2 py-4">
+        {% csrf_token %}
+        <div>
+            <label class="block">Nome:</label>
+            <input type="text" name="nome" class="bg-gray-300 p-2 rounded-3xl basis-128" value="{{cliente.nome}}"/>
+        </div>
+        <div>
+            <label class="block">Nascimento:</label>
+            <input type="date" name="data_nascimento" class="bg-gray-300 p-2 rounded-3xl basis-128" value="{{cliente.data_nascimento|date:'Y-m-d'}}"/>
+        </div>
+        <div>
+            <label class="block">Celular:</label>
+            <input type="text" name="celular" class="bg-gray-300 p-2 rounded-3xl" value="{{cliente.celular}}"/>
+        </div>
+        <div>
+            <label class="block">Plano:</label>
+            <select name="plano" class="bg-gray-300 p-2 rounded-3xl w-50">
+                <option value="{{cliente.plano}}">{{cliente.plano}}X</option>
+                <option value="1">1X</option>
+                <option value="2">2X</option>
+                <option value="3">3X</option>
+                <option value="4">4X</option>
+                <option value="5">5X</option>
+                <option value="6">6X</option>
+            </select>
+        </div>
+        
+        <div>
+            <label class="block">Valor/mensal:</label>
+            <input type="text" name="valor" class="bg-gray-300 p-2 rounded-3xl" value="{{cliente.valor}}"/>
+        </div>
+        <div>
+            <br>
+            <button class="cursor-pointer p-2 bg-green-600 text-white rounded-3xl px-4 hover:bg-green-700"><i class="fa-solid fa-refresh"></i> Atualizar</button>
+        </div>
+    </form>
+    <hr>
+    <div class="">
+        <h1 class="text-2xl"><i class="fa-solid fa-money-bill mx-3"></i>Financeiro</h1>        
+        {% if not receber_dados %}
+        <form action="{% url 'pagar_clientes' cliente.id %}" method="post" class="flex flex-wrap items-center justify-between space-x-2 py-4">
+        {% csrf_token %}
+        <div>
+            <label class="block">Dia do vencimento:</label>
+            <select name="vencimento" class="bg-gray-300 p-2 rounded-3xl w-50">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+            </select>
+        </div>
+        
+        <div>
+            <br>
+            <button class="cursor-pointer p-2 bg-green-600 text-white rounded-3xl px-4 hover:bg-green-700"><i class="fa-solid fa-plus"></i> Adicionar</button>
+        </div>
+    </form>
+    {% else %}
+
+    <form action="{% url 'atualizar_pagamento' cliente.id %}" method="post" class="flex flex-wrap items-center justify-between space-x-2 py-4">
+        {% csrf_token %}
+        <div>
+            <label class="block">Dia do vencimento:</label>
+            <select name="vencimento" class="bg-gray-300 p-2 rounded-3xl w-50 px-4">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+            </select>
+        </div>
+        <div>
+            <h1 >Proxima fatura</h1>
+            <p class="bg-white p-2 rounded-2xl">{{receber_dados.pagamento}}</p>
+        </div>
+        <div>
+            <br>
+            <button class="cursor-pointer p-2 bg-green-600 text-white rounded-3xl px-4 hover:bg-green-700"><i class="fa-solid fa-dollar-sign"></i> Receber</button>
+        </div>
+    </form>
+    {% endif %}
+    </div>
+    <hr>
+</section>
+{% endif %}
+
+{% endblock %}
