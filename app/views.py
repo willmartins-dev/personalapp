@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.db.models import Sum
-from .models import Cliente, CategoriaTreino, Exercicios, Receber, Treino, treinoSemana, exercicioDia
+from .models import Cliente, CategoriaTreino, Exercicios, Receber, Treino, treinoSemana, exercicioDia,Avaliacao
 from .forms import FormUpload
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -203,6 +203,7 @@ def view_clientes(request,id):
     
     cliente = Cliente.objects.get(id=id)
     receber = Receber.objects.filter(id_cliente=id)
+    avaliacao = Avaliacao.objects.filter(cliente_id=id)
 
     if request.method == 'GET':
 
@@ -231,6 +232,7 @@ def view_clientes(request,id):
             'idade':idade,
             'receber_dados':receber_dados,
             'data_vencimento':data_vencimento,
+            'avaliacao':avaliacao,
         }
 
         return render(request, 'clientes/clientes.html', context)
@@ -246,6 +248,16 @@ def view_clientes(request,id):
         cliente.save()
 
         return redirect('view_clientes')
+    
+def resultado_avaliacao(request,id):
+
+    avaliacao = Avaliacao.objects.get(id=id)
+
+    context={
+        'avaliacao':avaliacao,
+    }
+
+    return render(request, 'clientes/resultado_avaliacao.html', context)
     
 def pagar_clientes(request, id):
     
@@ -426,3 +438,44 @@ def delete_categoria_exercicio(request, id):
     categoria_exercicio.delete()
     
     return redirect('treinos')
+
+def insert_avaliacao(request, id):
+
+    cliente = Cliente.objects.get(id=id)
+
+    if request.method == 'GET':
+
+        context={
+            'cliente':cliente,
+        }
+    
+        return render(request, 'clientes/insert_avaliacao.html', context)
+    
+    if request.method == 'POST':
+
+        insert_avaliacao = Avaliacao(
+            cliente_id = id,
+            peso = request.POST.get('peso'),
+            altura = request.POST.get('altura'),
+            pescoco = request.POST.get('pescoco'),
+            peitoral = request.POST.get('peitoral'),
+            braco_d = request.POST.get('braco_d'),
+            braco_e = request.POST.get('braco_e'),
+            cintura = request.POST.get('cintura'),
+            abdomen = request.POST.get('abdomen'),
+            quadril = request.POST.get('quadril'),
+            coxa_d = request.POST.get('coxa_d'),
+            coxa_e = request.POST.get('coxa_e'),
+            pantu_d = request.POST.get('pantu_d'),
+            pantu_e = request.POST.get('pantu_e'),
+            triceps = request.POST.get('triceps'),
+            subescapular = request.POST.get('subescapular'),
+            axiliar_media = request.POST.get('axiliar_media'),
+            peito = request.POST.get('peito'),
+            abdominal = request.POST.get('abdominal'),
+            supra_iliaca = request.POST.get('supra_iliaca'),
+            coxa = request.POST.get('coxa'),
+        )
+        insert_avaliacao.save()
+
+        return HttpResponse('ok')

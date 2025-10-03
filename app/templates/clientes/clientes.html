@@ -7,11 +7,9 @@ Inicio - Personal APP
 {% if cliente %}
 
 <section class="container mx-auto bg-white/60 p-4 rounded-3xl border-1 border-gray-300 shadow-md flex flex-col space-y-2">
-    
+    <a href="{% url 'clientes' %}" class="text-1xl rounded-2xl p-2 bg-gray-800 text-white hover:bg-gray-500"><i class="fa-solid fa-arrow-left"></i> VOLTAR</a>
     <div class="flex items-center justify-between">
-        <h1 class="text-2xl"><i class="fa-solid fa-id-card mx-3"></i>{{cliente.nome}} {{idade}}</h1> 
-        <a href="{% url 'clientes' %}" class="text-1xl rounded-2xl p-2 bg-gray-800 text-white hover:bg-gray-500"><i class="fa-solid fa-arrow-left"></i> VOLTAR</a>
-
+        <h1 class="text-2xl"><i class="fa-solid fa-id-card mx-3"></i>{{cliente.nome}} {{idade}}</h1><a href="{% url 'insert_avaliacao' cliente.id %}" class="avaliacao bg-green-600 p-2 rounded-2xl text-white"><i class="fa-solid fa-plus"></i>Nova Avaliação</a>
     </div>
     <hr>
     <div>
@@ -101,6 +99,22 @@ Inicio - Personal APP
     {% endif %}
     </div>
     <hr>
+</section>
+{% endif %}
+{% if avaliacao %}
+<section class="my-4 container mx-auto bg-white/60 p-4 rounded-3xl border-1 border-gray-300 shadow-md flex flex-col space-y-2">
+
+    {% for a in avaliacao %}
+    <div class="flex items-center justify-between border-solid border-b-1 py-2">
+        <a href="" class="text-lg hover:bg-blue-200 rounded-3xl p-2"><i class="fa-solid fa-pencil"></i> {{a.data_avaliacao}}</a>
+        <a href="{% url 'resultado_avaliacao' a.id %}"  class="avaliacao bg-blue-600 text-white p-2 rounded-3xl"><i class="fa-solid fa-eye"></i></a>
+        <a href="" class="bg-red-600 text-white p-2 rounded-3xl"><i class="fa-solid fa-trash"></i></a>
+    </div>    
+    {% endfor %}
+</section >
+{% else %}
+<section  class="my-4 container mx-auto bg-white/60 p-4 rounded-3xl border-1 border-gray-300 shadow-md flex flex-col space-y-2">
+    <p>Nenhuma avaliação cadastrada!</p>
 </section>
 {% endif %}
 

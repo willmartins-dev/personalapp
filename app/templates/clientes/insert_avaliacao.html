@@ -1,0 +1,40 @@
+{% block 'content' %}
+{% if cliente %}
+<section class="overflow-x w-full h-full">
+    
+    <form action="{% url 'insert_avaliacao' cliente.id %}" method="post" class="">
+        {%csrf_token %}
+        <div class="flex tems-center gap-2 py-2">
+            <input type="text" class="bg-gray-300 rounded-2xl p-1 w-full" name="peso" placeholder="Peso:Kg" />
+            <input type="text" class="bg-gray-300 rounded-2xl p-1 w-full" name="altura" placeholder="Altura:cm" />
+        </div>
+        <h1 class="w-full my-2 border-solid border-b-1 py-2">Antropometria</h1>
+        <div class="flex flex-wrap items-center gap-2">
+            <input type="text" class="bg-gray-300 rounded-2xl p-1 w-24" name="pescoco" placeholder="Pescoço:cm" />
+            <input type="text" class="bg-gray-300 rounded-2xl p-1 w-24" name="peitoral" placeholder="Peito:cm" />
+            <input type="text" class="bg-gray-300 rounded-2xl p-1 w-24" name="braco_d" placeholder="Braço direita:cm" />
+            <input type="text" class="bg-gray-300 rounded-2xl p-1 w-24" name="braco_e" placeholder="Braço esquerda:cm" />
+            <input type="text" class="bg-gray-300 rounded-2xl p-1 w-24" name="cintura" placeholder="Cintura:cm" />
+            <input type="text" class="bg-gray-300 rounded-2xl p-1 w-24" name="abdomen" placeholder="Abdomen:cm" />
+            <input type="text" class="bg-gray-300 rounded-2xl p-1 w-24" name="quadril" placeholder="Quadril:cm" />
+            <input type="text" class="bg-gray-300 rounded-2xl p-1 w-24" name="coxa_d" placeholder="Coxa direita:cm" />
+            <input type="text" class="bg-gray-300 rounded-2xl p-1 w-24" name="coxa_e" placeholder="Coxa esquerda:cm" />
+            <input type="text" class="bg-gray-300 rounded-2xl p-1 w-24" name="pantu_d" placeholder="Panturrilha direita:cm" />
+            <input type="text" class="bg-gray-300 rounded-2xl p-1 w-24" name="pantu_e" placeholder="Panturrilha esquerda:cm" />
+        </div>
+        <h1 class="w-full my-2 border-solid border-b-1 py-2">Adipometria</h1>
+        <div class="flex flex-wrap items-center gap-2">
+            <input type="text" class="bg-gray-300 rounded-2xl p-1 w-24"  name="triceps" placeholder="Tríceps" />
+            <input type="text" class="bg-gray-300 rounded-2xl p-1 w-24" name="subescapular" placeholder="Subescapular" />
+            <input type="text" class="bg-gray-300 rounded-2xl p-1 w-24" name="axiliar_media" placeholder="Axiliar Média" />
+            <input type="text" class="bg-gray-300 rounded-2xl p-1 w-24" name="peito" placeholder="Peitoral" />
+            <input type="text" class="bg-gray-300 rounded-2xl p-1 w-24" name="abdominal" placeholder="Abdominal" />
+            <input type="text" class="bg-gray-300 rounded-2xl p-1 w-24" name="suprailiaca" placeholder="Suprailiaca" />
+            <input type="text" class="bg-gray-300 rounded-2xl p-1 w-24" name="coxa" placeholder="Coxa" />
+            <input type="text" class="bg-gray-300 rounded-2xl p-1 w-24" name="pantu" placeholder="Panturrilha" />
+        </div>
+        <button class="bg-green-600 text-white w-full my-4 p-2">Salvar</button>
+    </form>
+</section>
+{% endif %}
+{% endblock %}

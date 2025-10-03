@@ -1,0 +1,9 @@
+{% block 'content' %}
+{% if avaliacao %}
+<section class="overflow-x w-full h-full">
+    {{avaliacao.data_avaliacao}}
+    {{avaliacao.peso}}Kg
+    {{avaliacao.altura}}cm
+</section>
+{% endif %}
+{% endblock %}

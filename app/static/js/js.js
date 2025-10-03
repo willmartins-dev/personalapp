@@ -103,6 +103,28 @@ const csrftoken = getCookie('csrftoken');
             })
         
     });
+    $('.avaliacao').on('click', function(e){
+        $('#modal').removeClass('hidden')
+        e.preventDefault()
+
+        url2 = $(this).attr('href');
+
+          $.ajax({
+                url: url2,
+                type: 'GET', // ou 'POST'
+                beforeSend: function() {
+                    $('#ajaxLoader').show(); // Show loader
+                },
+                success: function(data) {
+                    $(".content-modal").load(url2);
+                },
+                complete: function() {
+                    $('#ajaxLoader').hide(); // Hide loader after completion (success or error)
+                }
+            })
+        
+    });
+
 
     $('[data-buscar]').on("keyup", function(e) {
         var termoBusca = $(this).val();

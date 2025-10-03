@@ -1,0 +1,29 @@
+{% load static tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block 'title' %}
+        {% endblock %}
+    </title>
+    {% tailwind_css %}
+     <link href="{% static 'fontawesome/css/fontawesome.css' %}" rel="stylesheet">
+     <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+  <!-- individual Font Awesome icon styles - select just the ones you're using in your project -->
+  <link href="{% static 'fontawesome/css/brands.css' %}" rel="stylesheet">
+  <link href="{% static 'fontawesome/css/solid.css' %}" rel="stylesheet">
+
+</head>
+<body>
+    
+    {% block 'content' %}
+    {% endblock %}
+    
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/js.js' %}"></script>
+</body>
+</html>

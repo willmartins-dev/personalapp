@@ -16,6 +16,36 @@ class Cliente(models.Model):
 
     def __str__(self):
         return self.nome
+
+class Avaliacao(models.Model):
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=True)
+    data_avaliacao = models.DateField(auto_now_add=True)
+    peso = models.FloatField(null=True)
+    altura = models.FloatField(null=True)
+    pescoco = models.FloatField(null=True)
+    peitoral = models.FloatField(null=True)
+    braco_d = models.FloatField(null=True)
+    braco_e = models.FloatField(null=True)
+    cintura = models.FloatField(null=True)
+    abdomen = models.FloatField(null=True)
+    quadril = models.FloatField(null=True)
+    coxa_d = models.FloatField(null=True)
+    coxa_e = models.FloatField(null=True)
+    pantu_d = models.FloatField(null=True)
+    pantu_e = models.FloatField(null=True)
+    triceps = models.FloatField(null=True)
+    subescapular = models.FloatField(null=True)
+    axiliar_media = models.FloatField(null=True)
+    peito = models.FloatField(null=True)
+    abdominal = models.FloatField(null=True)
+    supra_iliaca = models.FloatField(null=True)
+    coxa = models.FloatField(null=True)
+
+    def __str__(self):
+        return self.peso
+    
+
+
 class Receber(models.Model):
     id_cliente = models.IntegerField(null=True)
     pagamento = models.DateField(null=True)

@@ -1,4 +1,4 @@
-{% extends 'static/base/base.html' %}
+{% extends 'static/base/base_print.html' %}
 {% block 'title' %}
 Inicio - Personal APP
 {% endblock %}
@@ -6,26 +6,33 @@ Inicio - Personal APP
 {% if treino %}
 <section class="bg-white p-4">
    <div class="broder-solid border-b-1 p-2 my-2">
-    <h1 class="text-2xl">{{treino}}</h1>
+    <h1 class="text-2xl"><i class="fa-solid fa-dumbbell"></i>&nbsp;{{treino}}</h1>
+   </div>
+   <div class="m-2">
+    <h2>Início: <span class="font-bold">{{treino.data_inicio}}</span></h2>
+    <h2>Final: <span class="font-bold">{{treino.data_final}}</span></h2>
    </div> 
    <div>
         {% for s in sessao %}
-            <h1 class="bg-black text-white text-2xl p-2 rounded-2xl "><i class="fa-solid fa-dumbbell"></i>&nbsp;{{s.titulo}}</h1>
-            <div class="flex flex-wrap items-center justify-between py-2">
+            <h1 class="bg-gray-300 text-black text-lg p-1 rounded-xl ">{{s.titulo}}</h1>
+            <div class="flex flex-wrap items-center justify-between py-2 gap-2">
                 
                 {% for e in exercicios %}
                 
                 {% if e.dia_semana_id == s.id %}
-                    <div class="w-50 h-80 m-1">
+                    <div class="w-55 h-80 border border-gray-300">
 
-                        <h1 class="flex justify-center bg-gray-300 text-black p-2 rounded-2xl items-center">
+                        <h1 class="flex justify-center bg-gray-300 text-black p-1 items-center">
                             <span class="flex justify-center bg-gray-600 text-white w-6 h1-5 rounded-full">{{ forloop.counter }}</span>&nbsp;{{e.exercicio}}</h1>
                         <figure>
                             <img src="../../../media/{{e.imagem}}" class="h-30 mx-auto" />
                         </figure>
-                        <p>Séries: {{e.series}}</p>
-                        <p>Reps: {{e.repeticoes}}</p>
-                        <p class="text-justify">Obs: {{e.observacao}}</p>
+                        <div class="flex space-x-2 bg-gray-300 p-2">
+                            <p class="font-bold">Séries: {{e.series}}</p>
+                            <p class="font-bold">Reps: {{e.repeticoes}}</p>
+                        </div>
+                        
+                        <p class="text-justify p-1">Obs: {{e.observacao}}</p>
                     </div>
                 {% endif %}
                 {% endfor %}
